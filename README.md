@@ -1,0 +1,1 @@
+# JQ-Principle-of-encapsulation
