@@ -21,6 +21,9 @@
 //		首先$这个函数需要一个参数,这个参数是一个元素或者一个CSS选择符的字符串
 
 		function JQuery(target){
+			if(!target){
+				this.t=[];
+			}
 			if(typeof target=="string")//检测是否为字符串
 			{
 				this.t=document.querySelectorAll(target);
@@ -34,6 +37,20 @@
 		JQuery.prototype.hide=function(){
 			for(var i=0;i<this.t.length;i++){
 				this.t[i].style.display="none";
+			}
+			return this;
+		}
+//		我们给JQuery添加eq方法
+		JQuery.prototype.eq=function(x){
+			if(x<this.t.length)
+			return $(this.t[x]);
+			else
+			return $()
+		}
+//		我们给JQuery添加show方法
+		JQuery.prototype.show=function(){
+			for(var i=0;i<this.t.length;i++){
+				this.t[i].style.display="block";
 			}
 		}
 //		我们给JQuery添加on方法，也就是绑定事件的方法
@@ -60,6 +77,7 @@
 				}
 				
 			}
+			return this;
 		}
 //		jq的原理就是这样
 
@@ -68,10 +86,11 @@
 		}
 		
 		var div=document.getElementById('div');
-		$('.div').on('click',function(){
+		$('.div').eq(1).on('click',function(){
 			alert(2);
 		});
 		$(div).hide();
+		$(div).show();
 		</script>
 	</body>
 </html>
