@@ -5,13 +5,13 @@
 		<title></title>
 	</head>
 	<body>
-		<div class="div" style="width: 300px;height: 300px;background: red;">
+		<div class="div" style="width: 100px;height: 100px;background: yellow;">
 			
 		</div>
-		<div class="div" style="width: 300px;height: 300px;background: red;">
+		<div class="div" style="width: 100px;height: 100px;background: red;">
 			
 		</div>
-		<div id="div" style="width: 300px;height: 300px;background: blue;">
+		<div id="div" style="width: 300px;height: 300px;background: blue;display: none;">
 			
 		</div>
 		<script>
@@ -116,6 +116,39 @@
 			}
 			
 		}
+//  	我们给JQuery添加fadein方法，用于淡入淡出
+		JQuery.prototype.fadeIn=function(time,fun){
+			var timer=null;
+			var that=this;
+			var opacity=0;
+			if(!time){
+				time=300;
+			}
+			for(var i=0;i<this.t.length;i++){
+				var tar=this.t[i]
+				if(tar.style.display=="block"){
+					return;
+				}
+				tar.style.opacity="0";				
+				timer=setInterval(function(){
+					tar.style.display="block"
+					opacity=parseFloat(tar.style.opacity);
+					if(opacity>=0.99){
+						clearInterval(timer);
+						tar.style.opacity=1;
+						if(fun){
+							fun();
+						}
+						return;
+					}else{
+						opacity+=10/time;
+						tar.style.opacity=opacity;
+					}
+					
+				},10);
+			}
+			return this;
+		}
 //		jq的原理就是这样
 
 		function $(target){
@@ -124,7 +157,9 @@
 		
 		var div=document.getElementById('div');
 		$('.div').eq(1).on('click',function(){
-			alert(2);
+			$(div).fadeIn(1000,function(){
+				alert(1);
+			})
 		});
 		</script>
 	</body>
