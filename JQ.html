@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="{CHARSET}">
+		<meta charset="utf-8">
 		<title></title>
 	</head>
 	<body>
@@ -42,10 +42,28 @@
 		}
 //		我们给JQuery添加eq方法
 		JQuery.prototype.eq=function(x){
-			if(x<this.t.length)
-			return $(this.t[x]);
-			else
-			return $()
+			if(x<this.t.length){
+				var y=this.t[x];
+				this.t=[];
+				this.t.push(y)
+				return this;
+			}
+			else{
+				return $()
+			}			
+		}
+//      我们给JQuery添加width方法
+		JQuery.prototype.width=function(str){
+			if(typeof str=="number"){
+				for(var  i=0;i<this.t.length;i++){
+					this.t[i].style.width=str+'px';
+				}
+			}else if(typeof str=="string"&&(/px/g.test(str)||/rem/g.test(str)||/em/g.test(str))||/%/g.test(str)){
+				for(var  i=0;i<this.t.length;i++){
+					this.t[i].style.width=str;
+				}
+			}
+			return this;
 		}
 //		我们给JQuery添加show方法
 		JQuery.prototype.show=function(){
@@ -79,6 +97,25 @@
 			}
 			return this;
 		}
+//		我们给JQuery添加css方法，用于设置或返回CSS样式
+		JQuery.prototype.css=function(obj,str){
+			if((typeof obj=="string")&&(typeof str=="string"&&(/px/g.test(str)||/rem/g.test(str)||/em/g.test(str))||/%/g.test(str))){
+					for(var i=0;i<this.t.length;i++){
+						this.t[i].style[obj]=str;
+					}
+					return this;
+			}else if((typeof obj=="object")&&(!str)){
+					for(var  i=0;i<this.t.length;i++){
+						for(var  j in obj){
+							this.t[i].style[j]=obj[j];
+						}
+					}
+					return this;
+			}else if((typeof obj=="string")&&(!str)){			
+					return this.t[0].style[obj];
+			}
+			
+		}
 //		jq的原理就是这样
 
 		function $(target){
@@ -89,8 +126,6 @@
 		$('.div').eq(1).on('click',function(){
 			alert(2);
 		});
-		$(div).hide();
-		$(div).show();
 		</script>
 	</body>
 </html>
