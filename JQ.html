@@ -73,7 +73,20 @@
 				this.t[i].style.display="block";
 			}
 		}
-//		我们给JQuery添加
+//		我们给JQuery添加attr方法
+		JQuery.prototype.attr=function(attr,content){
+			for(var i=0;i<this.t.length;i++){
+				if(typeof content=="string"){
+					this.t[i].setAttribute(attr,content)
+					return this;					
+				}else if(typeof content=="function"){
+					this.t[i].setAttribute(attr,content());
+					return this;
+				}else if(!content){
+					return this.t[i].getAttribute(attr);
+				}
+			}
+		}
 //		我们给JQuery添加on方法，也就是绑定事件的方法
 		JQuery.prototype.on=function(e,efun,use){
 			for(var i=0;i<this.t.length;i++){
@@ -172,12 +185,6 @@
 		}
 		
 		var div=document.getElementById('div');
-		$('.div').eq(1).on('click',function(){
-			$(div).fadeIn(1000,function(){
-				alert(1);
-			})
-		});
-			
 		</script>
 	</body>
 </html>
