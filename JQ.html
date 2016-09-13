@@ -12,7 +12,7 @@
 		<div class="div" style="width: 100px;height: 100px;background: red;">
 			
 		</div>
-		<div id="div" style="width: 300px;height: 300px;background: blue;display: none;">
+		<div id="div" style="width: 300px;height: 300px;background: blue;">
 			
 		</div>
 
@@ -86,6 +86,41 @@
 					return this.t[i].getAttribute(attr);
 				}
 			}
+		}
+//		我们给JQuery添加fadeOut方法
+		JQuery.prototype.fadeOut=function(time,fun){
+			var timer=null;
+			var that=this;
+			if(!time){
+				time=300;
+			}
+			for(var i=0;i<this.t.length;i++){
+				var tar=this.t[i]
+				if(tar.style.display=="none"){
+					return;
+				}			
+				timer=setInterval(function(){
+					tar.style.display="block"
+					if(!tar.style.opacity){
+						tar.style.opacity=1;
+					}
+					opacity=parseFloat(tar.style.opacity);
+					if(opacity<=0.01){
+						clearInterval(timer);
+						tar.style.opacity=0;
+						tar.style.display="none"
+						if(fun){
+							fun();
+						}
+						return;
+					}else{
+						opacity=opacity-10/time;
+						tar.style.opacity=opacity;
+					}
+					
+				},10);
+			}
+			return this;
 		}
 //		我们给JQuery添加on方法，也就是绑定事件的方法
 		JQuery.prototype.on=function(e,efun,use){
@@ -185,6 +220,7 @@
 		}
 		
 		var div=document.getElementById('div');
+		$(div).fadeOut();
 		</script>
 	</body>
 </html>
