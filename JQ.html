@@ -12,7 +12,7 @@
 		<div class="div" style="width: 100px;height: 100px;background: red;">
 			
 		</div>
-		<div id="div" style="width: 300px;height: 300px;background: blue;">
+		<div id="div" style="width: 300px;height: 300px;background: blue;" class="lklk lo a b v">
 			
 		</div>
 
@@ -169,10 +169,65 @@
 		}
 //		我们给JQuery添加html方法
 		JQuery.prototype.html=function(argu){
-			for(var i=0;i<this.t.length;i++){
-				this.t[i].innerHTML=argu;
+			if(argu){
+				for(var i=0;i<this.t.length;i++){				
+					this.t[i].innerHTML=argu;	
+				}				
+			}else{
+				return this.t[0].innerHTML;
 			}
 		}
+//		我们给JQuery添加addClass方法
+		JQuery.prototype.addClass=function(cName){
+			var name=cName.split(" ");
+			for(var i=0;i<this.t.length;i++){
+				var x=this.t[i].getAttribute('class');
+					for(var j=0;j<name.length;j++){			
+					if(!x){
+						x=name[j];
+					}else{
+						x+=" "+name[j];
+					}
+				}
+				this.t[i].setAttribute('class',x);
+			}
+			return this;
+		}
+//		我们给JQuery添加removeClass方法
+		JQuery.prototype.removeClass=function(cName){
+			var name=cName.split(" ");
+			for(var i=0;i<this.t.length;i++){
+				var className=this.t[i].getAttribute('class');
+				var x=className;
+				if(className){
+					for(var j=0;j<name.length;j++){						
+							if(className.indexOf(name[j])==0){
+								var reg=new RegExp(name[j]+" ","g");						
+							}else if(className.indexOf(name[j])!=0){						
+								var reg=new RegExp(" "+name[j],"g");
+							}
+							x=x.replace(reg,'');						
+					}
+					this.t[i].setAttribute('class',x);
+				}else{
+					break;
+				}
+			}
+			return this;
+		}
+//		我们给JQuery添加toggleClass方法
+//		JQuery.prototype.toggleClass=function(cName){
+//			for(var i=0;i<this.t.length;i++){
+//				var className=this.t[i].getAttribute('class');
+//				if(className.search(cName)!=-1){
+//					className.replace(cName,"");
+//				}else if(className.search(cName)==-1){
+//					className+=cName;
+//				}
+//				this.t[i].setAttribute('class',className);
+//			}
+//			return this;
+//		}
 //		我们给JQuery添加val方法
 		JQuery.prototype.val=function(str){
 			for(var i=0;i<this.t.length;i++){
@@ -220,7 +275,7 @@
 		}
 		
 		var div=document.getElementById('div');
-		$(div).fadeOut();
+		$(div).removeClass('a b v');
 		</script>
 	</body>
 </html>
