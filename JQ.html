@@ -12,7 +12,7 @@
 		<div class="div" style="width: 100px;height: 100px;background: red;">
 			
 		</div>
-		<div id="div" style="width: 300px;height: 300px;background: blue;" class="lklk lo a b v">
+		<div id="div" style="width: 300px;height: 300px;background: blue;display: none;" class="lklk lo a b v">
 			
 		</div>
 
@@ -166,6 +166,44 @@
 			}
 			
 		}
+// 		我们给JQuery添加toggle方法
+		JQuery.prototype.toggle=function(){
+			for(var i=0;i<this.t.length;i++){
+				if(this.t[i].style.display!="none"){
+					this.t[i].style.display="none";					
+				}else if(this.t[i].style.display=="none"){
+					this.t[i].style.display="block";
+					if(this.t[i].style.visibility=="hidden"){
+						this.t[i].style.visibility="visible";
+					}
+				}
+			}
+		}
+// 		我们给JQuery添加slideUp方法
+		JQuery.prototype.slideUp=function(time){
+			var timer=[];
+			var that=this;
+			if(!time){
+				time=300;
+			}
+			for(var i=0;i<this.t.length;i++){
+				var height=this.t[i].style.height;
+				this.t[i].style.height="0px";
+				this.t[i].style.display="block";
+				var that=this.t[i];
+				timer[i]=setInterval(function(){
+					var h=parseFloat(that.style.height);
+					if(parseFloat(that.style.height)>=parseFloat(height)){
+						clearInterval(timer[i]);
+						that.style.height=height;
+						that.style.overflow="";						
+					}else{
+						h+=parseFloat(height)/(time/10)
+						that.style.height=h+"px";
+					}
+				},10)
+			}
+		}
 //		我们给JQuery添加html方法
 		JQuery.prototype.html=function(argu){
 			if(argu){
@@ -292,6 +330,8 @@
 		function $(target){
 			return new JQuery(target)
 		}
+		var div=document.getElementById('div');
+		$(div).slideUp(1000)
 		</script>
 	</body>
 	<script>
