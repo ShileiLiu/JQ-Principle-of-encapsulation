@@ -208,6 +208,12 @@
 				},10)
 			}
 		}
+//		我们给JQuery添加一个empty方法，用来清空元素的子元素
+		JQuery.prototype.empty=function(){
+			for(var i=0;i<this.t.length;i++){
+				this.t[i].innerHTML="";
+			}
+		}
 // 		我们给JQuery添加slideDown方法
 		JQuery.prototype.slideDown=function(time){
 			var timer=[];
